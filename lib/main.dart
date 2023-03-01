@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         title: 'Namer App',
         theme: ThemeData(
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightGreenAccent),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.pinkAccent),
         ),
         home: MyHomePage(),
       ),
@@ -115,7 +115,10 @@ switch (selectedIndex) {
 class FavoritesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
+    var theme = Theme.of(context);
+    var style = theme.textTheme.displayMedium!.copyWith(
+      color: theme.colorScheme.inversePrimary,
+    );
     var appState = context.watch<MyAppState>();
     var favorites = appState.favorites;
     return ListView(
@@ -123,7 +126,7 @@ class FavoritesPage extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(20),
           child: Text('You have '
-              '${appState.favorites.length} favorites:'),
+              '${appState.favorites.length} favorites:', style: style,),
         ),
         for (var favorite in favorites)
         SmallCard(pair: favorite, callback: () {
@@ -202,7 +205,7 @@ class BigCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Text(
-          pair.asLowerCase, 
+          pair.asPascalCase, 
         style: style,
         semanticsLabel: pair.asPascalCase,),
       ),
@@ -235,8 +238,8 @@ class SmallCard extends StatelessWidget {
         padding: const EdgeInsets.all(12.0),
         child: Center(
           child: ListTile(
-            title: Text(pair.asPascalCase),
-             trailing: IconButton(icon: const Icon(Icons.delete), 
+            title: Text(pair.asPascalCase, style: style,),
+             trailing: IconButton(icon: const Icon(Icons.delete, color: Colors.white,), 
              onPressed: () { 
               callback.call();
               },),),
